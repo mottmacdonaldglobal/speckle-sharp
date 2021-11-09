@@ -69,7 +69,7 @@ namespace ConnectorGrasshopper
 
       try
       {
-        loadedKits = KitManager.GetKitsWithConvertersForApp(Applications.Rhino6);
+        loadedKits = KitManager.GetKitsWithConvertersForApp(Applications.Rhino7);
 
         var kitItems = new List<ToolStripItem>();
         loadedKits.ToList().ForEach(kit =>

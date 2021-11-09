@@ -113,7 +113,7 @@ namespace ConnectorGrasshopper.Objects
       if (kitName == Kit?.Name) return;
       Kit = KitManager.Kits.FirstOrDefault(k => k.Name == kitName);
       SelectedKitName = Kit.Name;
-      Converter = Kit.LoadConverter(Applications.Rhino6);
+      Converter = Kit.LoadConverter(Applications.Rhino7);
       Converter.SetContextDocument(Rhino.RhinoDoc.ActiveDoc);
       Message = $"Using the {Kit.Name} Converter";
     }

@@ -280,5 +280,7 @@
   <PropertyGroup Condition="$([MSBuild]::IsOsPlatform('OSX'))">
     <PostBuildEvent>cp "$(TargetPath)" "$(TargetDir)$(TargetName).gha"</PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>Copy "$(TargetPath)" "$(TargetDir)$(TargetName).gha"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
-

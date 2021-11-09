@@ -150,7 +150,7 @@ namespace ConnectorGrasshopper.Ops
       var menuItem = Menu_AppendItem(menu, "Select the converter you want to use:");
       menuItem.Enabled = false;
       menuItem.Image = Properties.Resources.speckle_logo;
-      var kits = KitManager.GetKitsWithConvertersForApp(Applications.Rhino6);
+      var kits = KitManager.GetKitsWithConvertersForApp(Applications.Rhino7);
 
       foreach (var kit in kits)
       {
@@ -211,7 +211,7 @@ namespace ConnectorGrasshopper.Ops
       try
       {
         Kit = KitManager.Kits.FirstOrDefault(k => k.Name == kitName);
-        Converter = Kit.LoadConverter(Applications.Rhino6);
+        Converter = Kit.LoadConverter(Applications.Rhino7);
 
         Message = $"Using the {Kit.Name} Converter";
         foundKit = true;
@@ -230,7 +230,7 @@ namespace ConnectorGrasshopper.Ops
       try
       {
         Kit = KitManager.GetDefaultKit();
-        Converter = Kit.LoadConverter(Applications.Rhino6);
+        Converter = Kit.LoadConverter(Applications.Rhino7);
         Converter.SetContextDocument(Rhino.RhinoDoc.ActiveDoc);
         foundKit = true;
       }
