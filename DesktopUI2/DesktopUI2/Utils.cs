@@ -47,6 +47,8 @@ namespace DesktopUI2
         StartupLocation = WindowStartupLocation.CenterOwner,
         NegativeResult = new DialogResult("cancel"),
         Borderless = true,
+
+        Width = MainWindow.Instance.Width - 20,
         DialogButtons = new DialogResultButton[]
           {
             new DialogResultButton
@@ -61,7 +63,7 @@ namespace DesktopUI2
           Minimum = 0,
           DataContext = dataContext,
           [!ProgressBar.ValueProperty] = new Binding("Progress.Value"),
-          [!ProgressBar.MaximumProperty] = new Binding("Progress.Maximum"),
+          [!ProgressBar.MaximumProperty] = new Binding("Progress.Max"),
           [!ProgressBar.IsIndeterminateProperty] = new Binding("Progress.IsIndeterminate")
         }
       });

@@ -6,5 +6,6 @@
   <StyleInclude Source="/Styles/FloatingButton.xaml" />
   <StyleInclude Source="/Styles/MenuItem.xaml" />
   <StyleInclude Source="/Styles/Dialog.xaml" />
-
+  <StyleInclude Source="/Styles/Text.xaml" />
+  <StyleInclude Source="/Styles/TextBox.xaml" />
 </Styles>

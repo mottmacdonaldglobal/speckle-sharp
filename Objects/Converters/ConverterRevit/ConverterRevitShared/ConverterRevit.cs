@@ -60,13 +60,22 @@ namespace Objects.Converter.Revit
     /// </summary>
     public List<string> ConvertedObjectsList { get; set; } = new List<string>();
 
-    public HashSet<Exception> ConversionErrors { get; private set; } = new HashSet<Exception>();
+    public ProgressReport Report { get; private set; } = new ProgressReport();
 
     public Dictionary<string, BE.Level> Levels { get; private set; } = new Dictionary<string, BE.Level>();
 
-    public ConverterRevit() { }
+    public ConverterRevit()
+    {
+      var ver = System.Reflection.Assembly.GetAssembly(typeof(ConverterRevit)).GetName().Version;
+      Report.Log($"Using converter: {this.Name} v{ver}");
+    }
 
-    public void SetContextDocument(object doc) => Doc = (Document)doc;
+    public void SetContextDocument(object doc)
+    {
+      Doc = (Document)doc;
+      Report.Log($"Using document: {Doc.PathName}");
+      Report.Log($"Using units: {ModelUnits}");
+    }
 
     public void SetContextObjects(List<ApplicationPlaceholderObject> objects) => ContextObjects = objects;
     public void SetPreviousContextObjects(List<ApplicationPlaceholderObject> objects) => PreviousContextObjects = objects;
@@ -99,7 +108,7 @@ namespace Objects.Converter.Revit
           if ((BuiltInCategory)o.Category.Id.IntegerValue == BuiltInCategory.OST_RoomSeparationLines)
           {
             returnObject = RoomBoundaryLineToSpeckle(o);
-          } 
+          }
           else if ((BuiltInCategory)o.Category.Id.IntegerValue == BuiltInCategory.OST_MEPSpaceSeparationLines)
           {
             returnObject = SpaceSeparationLineToSpeckle(o);
@@ -181,6 +190,21 @@ namespace Objects.Converter.Revit
         case DB.Grid o:
           returnObject = GridLineToSpeckle(o);
           break;
+        case DB.ReferencePoint o:
+          if ((BuiltInCategory)o.Category.Id.IntegerValue == BuiltInCategory.OST_AnalyticalNodes)
+          {
+            returnObject = AnalyticalNodeToSpeckle(o);
+          }        
+          break;
+        case DB.Structure.BoundaryConditions o:
+          returnObject = BoundaryConditionsToSpeckle(o);
+          break;
+        case DB.Structure.AnalyticalModelStick o:
+          returnObject = AnalyticalStickToSpeckle(o);
+          break;
+        case DB.Structure.AnalyticalModelSurface o:
+          returnObject = AnalyticalSurfaceToSpeckle(o);
+          break;
         default:
           // if we don't have a direct conversion, still try to send this element as a generic RevitElement
           if ((@object as Element).IsElementSupported())
@@ -189,7 +213,7 @@ namespace Objects.Converter.Revit
             break;
           }
 
-          ConversionErrors.Add(new Exception($"Skipping not supported type: {@object.GetType()}{GetElemInfo(@object)}"));
+          Report.Log($"Skipped not supported type: {@object.GetType()}{GetElemInfo(@object)}");
           returnObject = null;
           break;
       }
@@ -357,7 +381,7 @@ namespace Objects.Converter.Revit
           return GridLineToNative(o);
 
         case BE.Space o:
-            return SpaceToNative(o);
+          return SpaceToNative(o);
 
         // other
         case Other.BlockInstance o:
@@ -407,6 +431,10 @@ namespace Objects.Converter.Revit
         DB.ProjectInfo _ => true,
         DB.ElementType _ => true,
         DB.Grid _ => true,
+        DB.ReferencePoint _ => true,
+        DB.Structure.AnalyticalModelStick _ => true,
+        DB.Structure.AnalyticalModelSurface _ => true,
+        DB.Structure.BoundaryConditions _ => true,
         _ => (@object as Element).IsElementSupported()
       };
     }
