@@ -15,6 +15,7 @@ namespace Objects
     public const double Line = 4;
     public const double Polyline = 5;
     public const double PolyCurve = 6;
+
   }
 
   public static class CurveArrayEncodingExtensions

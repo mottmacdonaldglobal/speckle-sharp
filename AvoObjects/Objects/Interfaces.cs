@@ -31,7 +31,7 @@ namespace Objects
     double length { get; set; }
     Interval domain { get; set; }
   }
-
+  
   #endregion
 
   #region Built elements
