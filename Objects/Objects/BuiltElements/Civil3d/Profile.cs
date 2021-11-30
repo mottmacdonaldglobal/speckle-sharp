@@ -25,9 +25,6 @@ namespace Objects.BuiltElements
 
         public float Offset { get; set; }
 
-
-        public double Tolerance { get; set; }
-
         public Alignment Alignment { get; set; }
 
         //public ProfileType Type { get; set; }
@@ -47,9 +44,9 @@ namespace Objects.BuiltElements
 
         public class ProfileEntity : Entity 
         { 
-            Interval Domain { get; set; }
-            Interval ElevationDomain { get; set; }
-            float length { get; set; }
+            public Interval Domain { get; set; }
+            public Interval ElevationDomain { get; set; }
+            public float length { get; set; }
 
         }
 
@@ -58,6 +55,7 @@ namespace Objects.BuiltElements
         public class ProfileParabolaAssymetric : ProfileEntity { }
         public class ProfileParabolaSymmetric : ProfileEntity { }
         public class ProfileTangent : ProfileEntity { }
+        public class ProfileNone : ProfileEntity { }
         #endregion
 
 

@@ -35,10 +35,6 @@ namespace Objects.BuiltElements
         public float Length { get; set; }
         public List<Profile> Profiles { get; set; }
 
-
-        public double Tolerance { get; set; }
-
-
         public List<Entity> Entities { get; set; }
 
         // public AlignmentType Type { get; set; }
@@ -61,28 +57,39 @@ namespace Objects.BuiltElements
 
         public class AlignmentEntity : Entity
         {
-            Interval Domain { get; set;  }
-            List<AlignmentSubEntity> subEntities { get; set;  }
+            public Interval Domain { get; set;  }
+            public List<AlignmentSubEntity> subEntities { get; set;  }
+            public AlignmentEntity() { }
         }
 
         #region AlignmentEntity Types
-
-        public class AlignmentArc: AlignmentEntity{}
-
         public class AlignmentLine : AlignmentEntity { }
+        public class AlignmentArc: AlignmentEntity{}
         public class AlignmentSpiral : AlignmentEntity { }
-        public class AlignmentMulitpleSegments : AlignmentEntity { }
         public class AlignmentSCS : AlignmentEntity { }
-        public class AlignmentSCSSC : AlignmentEntity { }
-        public class AlignmentSCSSCS : AlignmentEntity { }
+        public class AlignmentSLS : AlignmentEntity { }
+        public class AlignmentSL : AlignmentEntity { }
+        public class AlignmentLS : AlignmentEntity { }
+        public class AlignmentSC : AlignmentEntity { }
+        public class AlignmentCS : AlignmentEntity { }
         public class AlignmentSSCSS : AlignmentEntity { }
-        public class AlignmentSTS : AlignmentEntity { }
+        public class AlignmentSCSCS : AlignmentEntity { }
+        public class AlignmentSCSSCS : AlignmentEntity { }
+        public class AlignmentSS : AlignmentEntity { }
+        public class AlignmentSSC : AlignmentEntity { }
+        public class AlignmentCSS : AlignmentEntity { }
+        public class AlignmentMultipleSegments : AlignmentEntity { }
+        
+        public class AlignmentCLC : AlignmentEntity { }
+        public class AlignmentCRC : AlignmentEntity { }
+        
+        public class AlignmentCCRC : AlignmentEntity { }
 
         #endregion
 
         public class AlignmentSubEntity
         {
-            Interval Domain { get; set; }
+            public Interval Domain { get; set; }
         }
 
         #region AlignmentSubEntity Types
