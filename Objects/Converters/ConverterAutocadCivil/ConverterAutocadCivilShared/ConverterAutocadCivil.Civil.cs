@@ -68,11 +68,19 @@ namespace Objects.Converter.AutocadCivil
             _alignment.stationEquationDirections = directions;
 
             _alignment.units = ModelUnits;
-            _alignment.Length = alignment.Length;
-            _alignment.Entities = GetEntities(alignment.Entities);
-            
-
-
+            _alignment.length = alignment.Length;
+            _alignment.entities = GetEntities(alignment.Entities);
+            using (Transaction tr = Doc.Database.TransactionManager.StartTransaction())
+            { 
+                List<Profile> _profiles = new List<Profile>();
+                for(int i=0;  i< alignment.GetProfileIds().Count; i++)
+                {
+                    CivilDB.Profile profile = tr.GetObject(alignment.GetProfileIds()[i], OpenMode.ForRead) as CivilDB.Profile;
+                    _profiles.Add(ProfileToSpeckle(profile));
+                }
+                _alignment.profiles = _profiles;
+                tr.Commit();
+            }
             return _alignment;
         }
 
@@ -81,7 +89,7 @@ namespace Objects.Converter.AutocadCivil
             foreach(var entity in entities)
             {
                 AlignmentEntity _entity = new AlignmentEntity(); 
-                #region type select
+#region type select
                 switch (entity.EntityType)
                 {
                     case CivilDB.AlignmentEntityType.Line:
@@ -184,9 +192,9 @@ namespace Objects.Converter.AutocadCivil
                 }
 
 
-                #endregion
+#endregion
                 _entity.subEntities = GetSubEntities(entity);
-                _entity.Domain = new Interval((entity as CivilDB.AlignmentCurve).StartStation, (entity as CivilDB.AlignmentCurve).EndStation);                
+                _entity.domain = new Interval((entity as CivilDB.AlignmentCurve).StartStation, (entity as CivilDB.AlignmentCurve).EndStation);                
                 yield return _entity;
             }
         }
@@ -196,7 +204,7 @@ namespace Objects.Converter.AutocadCivil
             for (int i = 0; i < entity.SubEntityCount; i++)
             {
                 AlignmentSubEntity _subEntity = new AlignmentSubEntity();
-                #region Type select
+#region Type select
                 switch (entity[i].SubEntityType)
                 {
                     case CivilDB.AlignmentSubEntityType.Arc:
@@ -216,8 +224,8 @@ namespace Objects.Converter.AutocadCivil
                         }
 
                 }
-                #endregion
-                _subEntity.Domain = new Interval(entity[i].StartStation, entity[i].EndStation);
+#endregion
+                _subEntity.domain = new Interval(entity[i].StartStation, entity[i].EndStation);
                 yield return _subEntity;
             }
         }
@@ -225,16 +233,14 @@ namespace Objects.Converter.AutocadCivil
         // profiles
         public Profile ProfileToSpeckle(CivilDB.Profile profile)
         {
-            //var curve = CurveToSpeckle(profile.BaseCurve, ModelUnits) as Base;
             Profile _profile = new Profile()
             {
-                baseCurve = CurveToSpeckle(profile.BaseCurve, ModelUnits),
                 units = ModelUnits,
-                Alignment = AlignmentToSpeckle(new CivilDB.Alignment(profile.AlignmentId)),
                 Entities = GetEntities(profile.Entities),
                 ElevationDomain = new Interval(profile.ElevationAt(profile.StartingStation),profile.ElevationAt(profile.EndingStation)),
                 Offset = profile.Offset
             };
+            _profile.baseCurve = CurveToSpeckle(profile.BaseCurve, ModelUnits);
             if (profile.DisplayName != null)
                 _profile.name = profile.Name;
             if (profile.StartingStation != null)
@@ -249,7 +255,7 @@ namespace Objects.Converter.AutocadCivil
             foreach(var entity in entities)
             {
                 ProfileEntity _entity = new ProfileEntity();
-                #region Type select
+#region Type select
                 switch (entity.EntityType)
                 {
                     case CivilDB.ProfileEntityType.Circular:
@@ -279,7 +285,7 @@ namespace Objects.Converter.AutocadCivil
                         }
 
                 }
-                #endregion
+#endregion
                 _entity.Domain = new Interval(entity.StartStation, entity.EndStation);
                 _entity.ElevationDomain = new Interval(entity.StartElevation, entity.EndElevation);
                 _entity.length = entity.Length;

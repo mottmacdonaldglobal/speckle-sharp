@@ -32,10 +32,10 @@ namespace Objects.BuiltElements
 
         public Alignment() { }
 
-        public float Length { get; set; }
-        public List<Profile> Profiles { get; set; }
+        public double length { get; set; }
+        public IEnumerable<Profile> profiles { get; set; }
 
-        public List<Entity> Entities { get; set; }
+        public IEnumerable<AlignmentEntity> entities { get; set; }
 
         // public AlignmentType Type { get; set; }
 
@@ -57,8 +57,8 @@ namespace Objects.BuiltElements
 
         public class AlignmentEntity : Entity
         {
-            public Interval Domain { get; set;  }
-            public List<AlignmentSubEntity> subEntities { get; set;  }
+            public Interval domain { get; set;  }
+            public IEnumerable<AlignmentSubEntity> subEntities { get; set;  }
             public AlignmentEntity() { }
         }
 
@@ -87,9 +87,9 @@ namespace Objects.BuiltElements
 
         #endregion
 
-        public class AlignmentSubEntity
+        public class AlignmentSubEntity: Base
         {
-            public Interval Domain { get; set; }
+            public Interval domain { get; set; }
         }
 
         #region AlignmentSubEntity Types

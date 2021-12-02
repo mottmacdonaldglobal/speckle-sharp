@@ -29,6 +29,7 @@ using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Acad = Autodesk.AutoCAD;
 using AcadDB = Autodesk.AutoCAD.DatabaseServices;
+using Objects.BuiltElements;
 #if (CIVIL2021 || CIVIL2022)
 using Civil = Autodesk.Civil;
 using CivilDB = Autodesk.Civil.DatabaseServices;
@@ -371,6 +372,12 @@ public static string AutocadAppName = Applications.Autocad2022;
           acadObj = CurveToNativeDB(o.baseCurve);
           Report.Log($"Created Alignment {o.id} as Curve");
           break;
+
+        case Profile o:
+            acadObj = CurveToNativeDB(o.baseCurve);
+            Report.Log($"Created Profile {o.id} as Curve");
+            break;
+
 
         case ModelCurve o:
           acadObj = CurveToNativeDB(o.baseCurve);

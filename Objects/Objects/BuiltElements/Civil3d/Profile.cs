@@ -14,7 +14,7 @@ namespace Objects.BuiltElements
 
         public string name { get; set; }
 
-        public double startStation { get; set; }
+        public  double startStation { get; set; }
 
         public double endStation { get; set; }
 
@@ -22,10 +22,8 @@ namespace Objects.BuiltElements
 
         public Profile() { }
         public Interval ElevationDomain { get; set; }
+        public double Offset { get; set; }
 
-        public float Offset { get; set; }
-
-        public Alignment Alignment { get; set; }
 
         //public ProfileType Type { get; set; }
 
@@ -40,13 +38,13 @@ namespace Objects.BuiltElements
         //    CurbReturnProfile,
         //}
         
-        public List<ProfileEntity> Entities { get; set; }
+        public IEnumerable<ProfileEntity> Entities { get; set; }
 
         public class ProfileEntity : Entity 
         { 
             public Interval Domain { get; set; }
             public Interval ElevationDomain { get; set; }
-            public float length { get; set; }
+            public double length { get; set; }
 
         }
 
