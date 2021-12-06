@@ -4,10 +4,11 @@ using Speckle.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using static Objects.BuiltElements.Alignment;
 
 namespace Objects.Geometry
 {
-  public class Arc : Base, IHasBoundingBox, ICurve, IHasArea
+  public class Arc : AlignmentSubEntity, IHasArea
   {
     public double? radius { get; set; }
 

@@ -30,6 +30,8 @@ namespace Objects.BuiltElements
 
         public string units { get; set; }
 
+        public Polyline displayValue { get; set; }
+
         public Alignment() { }
 
         public double length { get; set; }
@@ -55,10 +57,14 @@ namespace Objects.BuiltElements
         //    Rail,
         //}
 
-        public class AlignmentEntity : Entity
+        public class AlignmentEntity : Entity,ICurve,IHasBoundingBox
         {
             public Interval domain { get; set;  }
             public IEnumerable<AlignmentSubEntity> subEntities { get; set;  }
+            double ICurve.length { get ; set ; }
+
+            Box IHasBoundingBox.bbox { get; }
+
             public AlignmentEntity() { }
         }
 
@@ -87,18 +93,14 @@ namespace Objects.BuiltElements
 
         #endregion
 
-        public class AlignmentSubEntity: Base
+        public class AlignmentSubEntity : Base, ICurve, IHasBoundingBox
+
         {
             public Interval domain { get; set; }
+
+            public Box bbox { get; set; }
+
+            public double length { get ; set ; }
         }
-
-        #region AlignmentSubEntity Types
-        public class AlignmentSubEntityArc : AlignmentSubEntity { }
-        public class AlignmentSubEntityLine : AlignmentSubEntity { }
-        public class AlignmentSubEntitySpiral : AlignmentSubEntity { }
-        #endregion
-
-
-
     }
 }

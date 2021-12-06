@@ -7,10 +7,11 @@ using Speckle.Core.Kits;
 using Speckle.Core.Logging;
 using Speckle.Core.Models;
 using Speckle.Newtonsoft.Json;
+using static Objects.BuiltElements.Alignment;
 
 namespace Objects.Geometry
 {
-  public class Line : Base, ICurve, IHasBoundingBox
+  public class Line : AlignmentSubEntity
   {
     /// <summary>
     /// OBSOLETE - This is just here for backwards compatibility.
